@@ -16,6 +16,12 @@
         .glass-nav { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(16, 185, 129, 0.1); }
         .gradient-text { background: linear-gradient(90deg, #059669, #0d9488); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .card-hover:hover { transform: translateY(-10px); transition: all 0.3s ease; box-shadow: 0 20px 25px -5px rgba(16, 185, 129, 0.1), 0 10px 10px -5px rgba(16, 185, 129, 0.04); }
+        .donation-pill:hover { background-color: #ecfdf5; border-color: #059669; color: #059669; }
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .animate-pulse-soft { animation: pulse-soft 3s infinite; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
@@ -111,22 +117,88 @@
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section id="donasi" class="py-24">
+    <!-- Interactive Donation Section -->
+    <section id="donasi" class="py-24 bg-emerald-50/50">
         <div class="container mx-auto px-6">
-            <div class="bg-emerald-600 rounded-[4rem] p-12 md:p-20 text-white relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-1/3 h-full bg-white opacity-10 -skew-x-12 translate-x-20"></div>
-                <div class="relative z-10 max-w-2xl space-y-8">
-                    <h2 class="text-5xl font-black leading-tight tracking-tight">Dukung Literasi Digital Pesantren</h2>
-                    <p class="text-emerald-50 text-xl font-medium">Bantu kami membangun Laboratorium Robotik di pelosok negeri untuk melahirkan ribuan teknokrat beraqidah lurus.</p>
-                    <div class="flex flex-wrap gap-6 pt-4">
-                        <button class="bg-white text-emerald-700 px-10 py-5 rounded-2xl font-black text-lg hover:bg-emerald-50 transition shadow-2xl">
-                            Donasi Sekarang
-                        </button>
-                        <button class="bg-emerald-700 text-white px-10 py-5 rounded-2xl font-bold border border-emerald-500 hover:bg-emerald-800 transition">
-                            Jadi Mitra Ahli
-                        </button>
+            <div class="max-w-6xl mx-auto bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-emerald-100">
+                <div class="grid lg:grid-cols-2">
+                    
+                    <!-- Left Column: Info & Progress -->
+                    <div class="p-8 md:p-16 bg-emerald-600 text-white relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-20 -mt-20"></div>
+                        
+                        <div class="relative z-10 space-y-8">
+                            <h2 class="text-4xl md:text-5xl font-black leading-tight">Dukung Literasi Digital Santri</h2>
+                            <p class="text-emerald-50 text-lg opacity-90">Setiap rupiah yang Anda berikan adalah investasi untuk masa depan teknokrat Muslim yang berakhlak mulia.</p>
+                            
+                            <!-- Progress Bar -->
+                            <div class="space-y-4 pt-4">
+                                <div class="flex justify-between items-end">
+                                    <div class="space-y-1">
+                                        <p class="text-emerald-200 text-sm font-bold uppercase tracking-wider">Terkumpul</p>
+                                        <p class="text-3xl font-black">Rp 75.400.000</p>
+                                    </div>
+                                    <p class="text-emerald-100 font-bold">75%</p>
+                                </div>
+                                <div class="w-full bg-emerald-800/50 h-4 rounded-full overflow-hidden p-1">
+                                    <div class="bg-white h-full rounded-full shadow-lg" style="width: 75%"></div>
+                                </div>
+                                <p class="text-emerald-100 text-sm">Target: <span class="font-bold">Rp 100.000.000</span> (Program Laboratorium 2024)</p>
+                            </div>
+
+                            <!-- Recent Donors -->
+                            <div class="pt-8 border-t border-emerald-500/50">
+                                <p class="text-sm font-bold text-emerald-200 mb-4 uppercase">Donatur Terbaru</p>
+                                <div class="flex -space-x-3 mb-4">
+                                    <img src="https://i.pravatar.cc/150?u=1" class="w-10 h-10 rounded-full border-2 border-emerald-600">
+                                    <img src="https://i.pravatar.cc/150?u=2" class="w-10 h-10 rounded-full border-2 border-emerald-600">
+                                    <img src="https://i.pravatar.cc/150?u=3" class="w-10 h-10 rounded-full border-2 border-emerald-600">
+                                    <div class="w-10 h-10 rounded-full bg-emerald-400 border-2 border-emerald-600 flex items-center justify-center text-[10px] font-bold">+120</div>
+                                </div>
+                                <p class="text-xs text-emerald-100 italic">"Semoga menjadi amal jariyah untuk adik-adik santri." - Hamba Allah</p>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Right Column: Form -->
+                    <div class="p-8 md:p-16 space-y-8">
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-800 mb-2">Pilih Nominal Donasi</h3>
+                            <p class="text-slate-500 text-sm">Silakan pilih atau masukkan nominal yang ingin Anda donasikan.</p>
+                        </div>
+
+                        <!-- Nominal Shortcuts -->
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                            <button class="donation-pill border-2 border-slate-100 py-3 rounded-2xl font-bold text-slate-600 transition-all text-sm">Rp 50rb</button>
+                            <button class="donation-pill border-2 border-emerald-600 bg-emerald-50 py-3 rounded-2xl font-bold text-emerald-600 transition-all text-sm">Rp 100rb</button>
+                            <button class="donation-pill border-2 border-slate-100 py-3 rounded-2xl font-bold text-slate-600 transition-all text-sm">Rp 250rb</button>
+                            <button class="donation-pill border-2 border-slate-100 py-3 rounded-2xl font-bold text-slate-600 transition-all text-sm">Rp 500rb</button>
+                            <button class="donation-pill border-2 border-slate-100 py-3 rounded-2xl font-bold text-slate-600 transition-all text-sm">Rp 1jt</button>
+                            <button class="donation-pill border-2 border-slate-100 py-3 rounded-2xl font-bold text-slate-600 transition-all text-sm">Lainnya</button>
+                        </div>
+
+                        <!-- Input Fields -->
+                        <div class="space-y-4">
+                            <div class="relative">
+                                <span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 font-bold">Rp</span>
+                                <input type="number" placeholder="Masukkan nominal lainnya" class="w-full bg-slate-50 border-2 border-transparent focus:border-emerald-500 focus:bg-white p-4 pl-12 rounded-2xl outline-none transition-all font-bold text-slate-800">
+                            </div>
+                            <input type="text" placeholder="Nama Lengkap (Bisa Anonim)" class="w-full bg-slate-50 border-2 border-transparent focus:border-emerald-500 focus:bg-white p-4 rounded-2xl outline-none transition-all font-medium">
+                            <textarea placeholder="Tulis doa atau dukungan..." class="w-full bg-slate-50 border-2 border-transparent focus:border-emerald-500 focus:bg-white p-4 rounded-2xl outline-none transition-all font-medium h-24"></textarea>
+                        </div>
+
+                        <button class="w-full bg-slate-900 text-white py-5 rounded-2xl font-black text-lg hover:bg-emerald-600 transition-all shadow-xl shadow-emerald-200 flex items-center justify-center space-x-3 group">
+                            <span>Lanjut Pembayaran</span>
+                            <i class="fas fa-arrow-right transition-transform group-hover:translate-x-2"></i>
+                        </button>
+                        
+                        <div class="flex items-center justify-center space-x-4 opacity-40 grayscale hover:grayscale-0 transition-all cursor-default">
+                            <i class="fab fa-cc-visa text-2xl"></i>
+                            <i class="fab fa-cc-mastercard text-2xl"></i>
+                            <span class="font-bold text-xs uppercase tracking-widest">Bank Transfer & E-Wallet</span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
