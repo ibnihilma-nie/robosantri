@@ -15,10 +15,13 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
         .glass-nav { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(16, 185, 129, 0.1); }
         .gradient-text { background: linear-gradient(90deg, #059669, #0d9488); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .card-hover:hover { transform: translateY(-10px); transition: all 0.3s ease; box-shadow: 0 20px 25px -5px rgba(16, 185, 129, 0.1), 0 10px 10px -5px rgba(16, 185, 129, 0.04); }
+        .card-hover:hover { transform: translateY(-10px); transition: all 0.3s ease; cursor: pointer; box-shadow: 0 20px 25px -5px rgba(16, 185, 129, 0.1), 0 10px 10px -5px rgba(16, 185, 129, 0.04); }
         .donation-pill:hover { background-color: #ecfdf5; border-color: #059669; color: #059669; }
         
-        /* Custom scrollbar for better look */
+        /* Modal Animation */
+        .modal-enter { opacity: 0; transform: scale(0.95); }
+        .modal-enter-active { opacity: 1; transform: scale(1); transition: all 0.3s ease-out; }
+        
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #10b981; border-radius: 10px; }
@@ -64,7 +67,7 @@
                     <button class="bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold flex items-center hover:bg-emerald-600 transition shadow-xl">
                         Mulai Belajar <i class="fas fa-chevron-right ml-3"></i>
                     </button>
-                    <a href="#inovasi" class="border-2 border-slate-200 px-8 py-4 rounded-2xl font-bold hover:border-emerald-500 hover:text-emerald-600 transition inline-block">
+                    <a href="#inovasi" class="border-2 border-slate-200 px-8 py-4 rounded-2xl font-bold hover:border-emerald-500 hover:text-emerald-600 transition inline-block text-center">
                         Eksplorasi Karya
                     </a>
                 </div>
@@ -87,27 +90,28 @@
             <div class="text-center mb-16 space-y-4">
                 <h2 class="text-emerald-600 font-bold uppercase tracking-widest text-sm text-center">Kurikulum STEM</h2>
                 <h3 class="text-4xl font-black text-slate-900">Materi Unggulan Kami</h3>
+                <p class="text-slate-400 text-sm">Klik kartu untuk melihat detail materi</p>
             </div>
             <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
                 <!-- Card 1 -->
-                <div class="p-10 rounded-[2.5rem] bg-emerald-50 border border-emerald-100 card-hover">
-                    <div class="w-14 h-14 bg-emerald-600 rounded-2xl flex items-center justify-center text-white mb-8 shadow-lg mx-auto md:mx-0">
+                <div onclick="openModal('coding')" class="p-10 rounded-[2.5rem] bg-emerald-50 border border-emerald-100 card-hover group">
+                    <div class="w-14 h-14 bg-emerald-600 rounded-2xl flex items-center justify-center text-white mb-8 shadow-lg mx-auto md:mx-0 group-hover:bg-emerald-700 transition">
                         <i class="fas fa-code text-2xl"></i>
                     </div>
                     <h4 class="text-2xl font-bold mb-4">Pemrograman Dasar</h4>
                     <p class="text-slate-600 font-medium leading-relaxed">Mempelajari logika algoritma dan bahasa pemrograman untuk mengontrol hardware secara presisi.</p>
                 </div>
                 <!-- Card 2 -->
-                <div class="p-10 rounded-[2.5rem] bg-blue-50 border border-blue-100 card-hover">
-                    <div class="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center text-white mb-8 shadow-lg mx-auto md:mx-0">
+                <div onclick="openModal('iot')" class="p-10 rounded-[2.5rem] bg-blue-50 border border-blue-100 card-hover group">
+                    <div class="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center text-white mb-8 shadow-lg mx-auto md:mx-0 group-hover:bg-blue-700 transition">
                         <i class="fas fa-microchip text-2xl"></i>
                     </div>
                     <h4 class="text-2xl font-bold mb-4">Internet of Things</h4>
                     <p class="text-slate-600 font-medium leading-relaxed">Menghubungkan alat fisik ke internet untuk pemantauan dan kontrol jarak jauh di pesantren.</p>
                 </div>
                 <!-- Card 3 -->
-                <div class="p-10 rounded-[2.5rem] bg-amber-50 border border-amber-100 card-hover">
-                    <div class="w-14 h-14 bg-amber-600 rounded-2xl flex items-center justify-center text-white mb-8 shadow-lg mx-auto md:mx-0">
+                <div onclick="openModal('ai')" class="p-10 rounded-[2.5rem] bg-amber-50 border border-amber-100 card-hover group">
+                    <div class="w-14 h-14 bg-amber-600 rounded-2xl flex items-center justify-center text-white mb-8 shadow-lg mx-auto md:mx-0 group-hover:bg-amber-700 transition">
                         <i class="fas fa-brain text-2xl"></i>
                     </div>
                     <h4 class="text-2xl font-bold mb-4">Kecerdasan Buatan</h4>
@@ -117,16 +121,44 @@
         </div>
     </section>
 
+    <!-- Modal for Program Details -->
+    <div id="programModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="relative bg-white w-full max-w-2xl rounded-[3rem] shadow-2xl overflow-hidden animate-modal">
+            <div id="modalHeader" class="p-8 text-white flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <div id="modalIcon" class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-md">
+                        <i class="fas fa-code text-xl"></i>
+                    </div>
+                    <h3 id="modalTitle" class="text-2xl font-bold">Judul Materi</h3>
+                </div>
+                <button onclick="closeModal()" class="w-10 h-10 rounded-full bg-black/10 flex items-center justify-center hover:bg-black/20 transition">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-8 md:p-12">
+                <h4 class="font-bold text-slate-800 mb-4 uppercase tracking-widest text-sm">Apa yang dipelajari?</h4>
+                <ul id="modalList" class="space-y-4">
+                    <!-- List items will be injected here -->
+                </ul>
+                <div class="mt-10 p-6 bg-slate-50 rounded-2xl border border-slate-100">
+                    <p class="text-sm text-slate-500 font-medium italic" id="modalQuote">"Membangun logika berpikir yang sistematis sesuai tuntunan adab Islami."</p>
+                </div>
+                <button onclick="closeModal()" class="mt-8 w-full bg-emerald-600 text-white py-4 rounded-2xl font-bold hover:bg-emerald-700 transition">Saya Mengerti</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Karya Inovasi Section -->
     <section id="inovasi" class="py-24 bg-slate-50">
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-                <div class="space-y-4">
+                <div class="space-y-4 text-center md:text-left">
                     <h2 class="text-emerald-600 font-bold uppercase tracking-widest text-sm">Portofolio Santri</h2>
                     <h3 class="text-4xl font-black text-slate-900">Karya Inovatif Masa Depan</h3>
                     <p class="text-slate-500 font-medium max-w-xl text-lg italic">"Sebaik-baik manusia adalah yang paling bermanfaat bagi orang lain."</p>
                 </div>
-                <button class="text-emerald-600 font-bold flex items-center hover:underline">
+                <button class="text-emerald-600 font-bold flex items-center hover:underline mx-auto md:mx-0">
                     Lihat Semua Karya <i class="fas fa-arrow-right ml-2"></i>
                 </button>
             </div>
@@ -203,12 +235,11 @@
         <div class="container mx-auto px-6">
             <div class="max-w-6xl mx-auto bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-emerald-100">
                 <div class="grid lg:grid-cols-2">
-                    <!-- Left Column: Info & Progress -->
                     <div class="p-8 md:p-16 bg-emerald-600 text-white relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-20 -mt-20"></div>
                         <div class="relative z-10 space-y-8">
-                            <h2 class="text-4xl md:text-5xl font-black leading-tight">Dukung Literasi Digital Santri</h2>
-                            <p class="text-emerald-50 text-lg opacity-90 font-medium leading-relaxed">Setiap rupiah yang Anda berikan adalah investasi untuk masa depan teknokrat Muslim yang berakhlak mulia.</p>
+                            <h2 class="text-4xl md:text-5xl font-black leading-tight text-center md:text-left">Dukung Literasi Digital Santri</h2>
+                            <p class="text-emerald-50 text-lg opacity-90 font-medium leading-relaxed text-center md:text-left">Setiap rupiah yang Anda berikan adalah investasi untuk masa depan teknokrat Muslim yang berakhlak mulia.</p>
                             
                             <div class="space-y-4 pt-4">
                                 <div class="flex justify-between items-end">
@@ -221,23 +252,22 @@
                                 <div class="w-full bg-emerald-800/50 h-4 rounded-full overflow-hidden p-1">
                                     <div class="bg-white h-full rounded-full shadow-lg transition-all duration-1000" style="width: 75%"></div>
                                 </div>
-                                <p class="text-emerald-100 text-sm">Target: <span class="font-bold">Rp 100.000.000</span> (Program Laboratorium 2024)</p>
+                                <p class="text-emerald-100 text-sm text-center md:text-left">Target: <span class="font-bold">Rp 100.000.000</span> (Program Laboratorium 2024)</p>
                             </div>
 
                             <div class="pt-8 border-t border-emerald-500/50">
-                                <p class="text-sm font-bold text-emerald-200 mb-4 uppercase tracking-widest">Donatur Terbaru</p>
-                                <div class="flex -space-x-3 mb-4">
+                                <p class="text-sm font-bold text-emerald-200 mb-4 uppercase tracking-widest text-center md:text-left">Donatur Terbaru</p>
+                                <div class="flex -space-x-3 mb-4 justify-center md:justify-start">
                                     <img src="https://i.pravatar.cc/150?u=1" class="w-10 h-10 rounded-full border-2 border-emerald-600">
                                     <img src="https://i.pravatar.cc/150?u=2" class="w-10 h-10 rounded-full border-2 border-emerald-600">
                                     <img src="https://i.pravatar.cc/150?u=3" class="w-10 h-10 rounded-full border-2 border-emerald-600">
                                     <div class="w-10 h-10 rounded-full bg-emerald-400 border-2 border-emerald-600 flex items-center justify-center text-[10px] font-bold">+120</div>
                                 </div>
-                                <p class="text-xs text-emerald-100 italic">"Semoga menjadi amal jariyah untuk adik-adik santri." - Hamba Allah</p>
+                                <p class="text-xs text-emerald-100 italic text-center md:text-left">"Semoga menjadi amal jariyah untuk adik-adik santri." - Hamba Allah</p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Right Column: Form -->
                     <div class="p-8 md:p-16 space-y-8 bg-white">
                         <div>
                             <h3 class="text-2xl font-bold text-slate-800 mb-2">Pilih Nominal Donasi</h3>
@@ -266,12 +296,6 @@
                             <span>Lanjut Pembayaran</span>
                             <i class="fas fa-arrow-right transition-transform group-hover:translate-x-2"></i>
                         </button>
-                        
-                        <div class="flex items-center justify-center space-x-4 opacity-40 grayscale hover:grayscale-0 transition-all cursor-default">
-                            <i class="fab fa-cc-visa text-2xl"></i>
-                            <i class="fab fa-cc-mastercard text-2xl"></i>
-                            <span class="font-bold text-xs uppercase tracking-widest">Bank Transfer & E-Wallet</span>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -296,6 +320,86 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        const modalData = {
+            coding: {
+                title: "Pemrograman Dasar",
+                bg: "bg-emerald-600",
+                icon: "fa-code",
+                quote: "Coding adalah cara kita berbicara dengan mesin untuk menebar manfaat bagi umat.",
+                list: [
+                    "Logika Pemrograman & Algoritma",
+                    "Bahasa C++ untuk Microcontroller",
+                    "Struktur Data Dasar",
+                    "Debug dan Problem Solving",
+                    "Integrasi Hardware & Software"
+                ]
+            },
+            iot: {
+                title: "Internet of Things",
+                bg: "bg-blue-600",
+                icon: "fa-microchip",
+                quote: "Menghubungkan dunia fisik ke digital untuk efisiensi sistem di pesantren.",
+                list: [
+                    "Pengenalan Sensor & Actuator",
+                    "Protokol Komunikasi (MQTT/HTTP)",
+                    "Cloud Dashboard Management",
+                    "Sistem Otomasi Cerdas",
+                    "Keamanan Jaringan Dasar"
+                ]
+            },
+            ai: {
+                title: "Kecerdasan Buatan",
+                bg: "bg-amber-600",
+                icon: "fa-brain",
+                quote: "Mengoptimalkan potensi teknologi untuk kemaslahatan umat melalui AI.",
+                list: [
+                    "Konsep Dasar Machine Learning",
+                    "Computer Vision untuk Keamanan",
+                    "Natural Language Processing Dasar",
+                    "Etika Penggunaan AI dalam Islam",
+                    "Analisis Data Santri & Operasional"
+                ]
+            }
+        };
+
+        function openModal(type) {
+            const data = modalData[type];
+            const modal = document.getElementById('programModal');
+            const header = document.getElementById('modalHeader');
+            const title = document.getElementById('modalTitle');
+            const list = document.getElementById('modalList');
+            const quote = document.getElementById('modalQuote');
+            const iconContainer = document.getElementById('modalIcon');
+            const icon = iconContainer.querySelector('i');
+
+            // Set content
+            header.className = `p-8 text-white flex justify-between items-center ${data.bg}`;
+            title.innerText = data.title;
+            quote.innerText = `"${data.quote}"`;
+            icon.className = `fas ${data.icon} text-xl`;
+
+            // Set list
+            list.innerHTML = '';
+            data.list.forEach(item => {
+                const li = document.createElement('li');
+                li.className = "flex items-center space-x-3 text-slate-600 font-medium";
+                li.innerHTML = `<i class="fas fa-check-circle text-emerald-500"></i> <span>${item}</span>`;
+                list.appendChild(li);
+            });
+
+            // Show modal
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent scroll
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('programModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto'; // Re-enable scroll
+        }
+    </script>
 
 </body>
 </html>
